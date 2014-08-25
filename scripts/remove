@@ -1,0 +1,13 @@
+#!/bin/bash
+
+app="ethercalc"
+
+domain=$(sudo yunohost app setting $app domain)
+
+sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
+sudo rm -Rf /var/log/$app/
+sudo update-rc.d $app remove
+sudo service $app stop
+sudo rm /etc/init.d/$app
+
+

@@ -1,0 +1,44 @@
+{
+    "name": "EtherCalc",
+    "id": "ethercalc",
+    "description": {
+        "en": "online web spreadsheet editor providing collaborative editing in really real-time"
+    },
+    "developer": {
+        "name": "zamentur",
+        "email": "valentin@grimaud.me",
+        "url": "https://ethercalc.net/"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for EtherCalc"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for EtherCalc"
+                },
+                "example": "/calc",
+                "default": "/calc"
+            },
+            {
+                "name": "public_site",
+                "ask": {
+                    "en": "Is it a public EtherCalc ?"
+                },
+                "choices": ["Yes", "No"],
+                "default": "Yes"
+            }
+
+
+        ]
+    }
+}
+
+
