@@ -9,9 +9,9 @@
 # Short-Description: starts ethercalc
 # Description:       starts ethercalc using start-stop-daemon
 ### END INIT INFO
-app="ethercalc"
+
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/node/bin"
-LOGFILE="/var/log/$app/$app.log"
+LOGFILE="/var/log/ethercalc/YUNOLOG.log"
 EPLITE_DIR="/usr/local/bin"
 EPLITE_BIN="ethercalc"
 USER="www-data"
@@ -25,8 +25,8 @@ set -e
 
 start() {
   echo "Starting $DESC... "
-  
-	start-stop-daemon --start --chuid "$USER:$GROUP" --background --make-pidfile --pidfile /var/run/$NAME.pid --exec $EPLITE_DIR/$EPLITE_BIN -- $LOGFILE || true
+  	PORT=YUNOPORT 
+	start-stop-daemon --start --chuid "$USER:$GROUP" --background --make-pidfile --pidfile /var/run/$NAME.pid --exec $EPLITE_DIR/$EPLITE_BIN -- $LOGFILE --basepath YUNOPATH || true
   echo "done"
 }
 

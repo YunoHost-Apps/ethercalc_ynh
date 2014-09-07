@@ -9,7 +9,7 @@
         "email": "valentin@grimaud.me",
         "url": "https://ethercalc.net/"
     },
-    "multi_instance": "false",
+    "multi_instance": "true",
     "arguments": {
         "install" : [
             {

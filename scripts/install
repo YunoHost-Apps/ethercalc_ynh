@@ -1,51 +1,61 @@
 #!/bin/bash
 
-app="ethercalc"
-
+app_id_forked="ethercalc"
+app_id="ether"
+app_id+="calc"
+instance_number=$(echo $app_id_forked | sed 's/[^0-9]//g')
 # Retrieve arguments
 domain=$1
 path=$2
 is_public=$3
+port=$((instance_number+8000))
 
 # Check domain/path availability
-sudo yunohost app checkurl $domain$path -a $app
+sudo yunohost app checkurl $domain$path -a $app_id_forked
 if [[ ! $? -eq 0 ]]; then
 exit 1
 fi
 
 # Save specific settings
-sudo yunohost app setting $app is_public -v $is_public
+sudo yunohost app setting $app_id_forked is_public -v $is_public
 
 # Remove trailing "/" for next commands
 path=${path%/}
 
 # Install dependances
 sudo apt-get install nodejs-legacy npm redis-server -y
-sudo npm i -g ethercalc
+#sudo npm i -g $app_id
 
 # Copy files to the right place
-sudo cp ../conf/$app /etc/init.d/
-sudo chmod +x /etc/init.d/$app
-sudo update-rc.d $app defaults
-sudo mkdir /var/log/$app/
-sudo touch /var/log/$app/$app.log
-sudo chown www-data /var/log/$app/$app.log
+sed -i "s@YUNOPORT@$port@g" ../conf/$app_id
+sed -i "s@YUNOLOG@$app_id_forked@g" ../conf/$app_id
+sed -i "s@YUNOPATH@$path@g" ../conf/$app_id
+sudo cp ../conf/$app_id /etc/init.d/$app_id_forked
+sudo chmod +x /etc/init.d/$app_id_forked
+sudo update-rc.d $app_id_forked defaults
+if [ ! -d "/var/log/$app_id/" ]; then
+	sudo mkdir /var/log/$app_id/
+fi
+sudo touch /var/log/$app_id/$app_id_forked.log
+sudo chown www-data /var/log/$app_id/$app_id_forked.log
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf*
 sed -i "s@ALIASTOCHANGE@$final_path/@g" ../conf/nginx.conf*
+sed -i "s@YUNOPORT@$port@g" ../conf/nginx.conf*
 if [ "$path" = "" ];
 then
-	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app_id_forked.conf
 else
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app_id_forked.conf
 fi
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload
 if [ "$is_public" = "Yes" ];
 then
-	sudo yunohost app setting $app skipped_uris -v "/"
+	sudo yunohost app setting ethercalc skipped_regex -v "$final_path/.*" 
 fi
+sudo service $app_id_forked stop
+sudo service $app_id_forked start
 sudo yunohost app ssowatconf
-sudo service $app start
