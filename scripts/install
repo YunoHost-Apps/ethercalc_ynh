@@ -24,7 +24,7 @@ path=${path%/}
 
 # Install dependances
 sudo apt-get install nodejs-legacy npm redis-server -y
-#sudo npm i -g $app_id
+sudo npm i -g $app_id
 
 # Copy files to the right place
 sed -i "s@YUNOPORT@$port@g" ../conf/$app_id
