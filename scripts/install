@@ -54,7 +54,7 @@ fi
 sudo service nginx reload
 if [ "$is_public" = "Yes" ];
 then
-	sudo yunohost app setting ethercalc skipped_regex -v "$final_path/.*" 
+	sudo yunohost app setting ethercalc skipped_uris -v "/" 
 fi
 sudo service $app_id_forked stop
 sudo service $app_id_forked start
