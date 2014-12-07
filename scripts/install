@@ -1,9 +1,9 @@
 #!/bin/bash
 
-app_id_forked="ethercalc"
-app_id="ether"
-app_id+="calc"
-instance_number=$(echo $app_id_forked | sed 's/[^0-9]//g')
+app="ethercalc"
+name="ether"
+name+="calc"
+instance_number=$(echo $app | sed 's/[^0-9]//g')
 # Retrieve arguments
 domain=$1
 path=$2
@@ -11,14 +11,14 @@ is_public=$3
 port=$((instance_number+8000))
 
 # Check domain/path availability
-sudo yunohost app checkurl $domain$path -a $app_id_forked
+sudo yunohost app checkurl $domain$path -a $app
 if [[ ! $? -eq 0 ]]; then
 exit 1
 fi
 
 echo "Register configuration..."
-sudo yunohost app setting $app_id_forked is_public -v $is_public
-sudo yunohost app setting $app_id_forked port -v $port
+sudo yunohost app setting $app is_public -v $is_public
+sudo yunohost app setting $app port -v $port
 
 # Remove trailing "/" for next commands
 path=${path%/}
@@ -28,46 +28,50 @@ sudo apt-get update
 sudo apt-get install nodejs-legacy npm redis-server -y
 
 echo "Installing EtherCalc with NPM..."
-final_path=/var/www/$app_id_forked
+final_path=/var/www/$app
 sudo mkdir -p $final_path
-sudo useradd -d $final_path $app_id_forked
-su --shell /bin/bash --command "cd $final_path/ && npm install --production $app_id" $app_id_forked
+sudo useradd -d $final_path $app
+su --shell /bin/bash --command "cd $final_path/ && npm install --production $name" $app
 
 echo "Cleaning up install tree..."
 sudo rm -rf $final_path/.npm
 find $final_path -type d | grep "test$" | xargs sudo rm -rf
 find $final_path -type d | grep "tests$" | xargs sudo rm -rf
 
+echo "Setting up permissions"
+sudo chown -R ghostblog: $final_path
+
 echo "Setting up init script..."
-logfile=/var/log/$app_id/$app_id_forked.log
-sed -i "s@YUNOPORT@$port@g" ../conf/$app_id
-sed -i "s@YUNOLOG@$app_id_forked@g" ../conf/$app_id
-sed -i "s@YUNOPATH@$path@g" ../conf/$app_id
-sudo cp ../conf/$app_id /etc/init.d/$app_id_forked
-sudo chmod +x /etc/init.d/$app_id_forked
-sudo update-rc.d $app_id_forked defaults
-if [ ! -d "/var/log/$app_id/" ]; then
-	sudo mkdir /var/log/$app_id/
+logfile=/var/log/$name/$app.log
+sed -i "s@YUNOPORT@$port@g" ../conf/$name
+sed -i "s@YUNOLOG@$app@g" ../conf/$name
+sed -i "s@YUNOPATH@$path@g" ../conf/$name
+sudo cp ../conf/$name /etc/init.d/$app
+sudo chmod +x /etc/init.d/$app
+sudo update-rc.d $app defaults
+if [ ! -d "/var/log/$name/" ]; then
+	sudo mkdir /var/log/$name/
 fi
 sudo touch $logfile
-sudo chown $app_id_forked $logfile
-sudo service $app_id_forked stop
-sudo service $app_id_forked start
-sudo yunohost service add $app_id_forked -l $logfile
+sudo chown $app $logfile
+sudo service $app stop
+sudo service $app start
+sudo yunohost service add $app -l $logfile
 
 echo "Setting up logrotate configuration..."
 sed -i "s@YNH_LOGFILE@$logfile@g" ../conf/logrotate
-sudo cp ../conf/logrotate /etc/logrotate.d/$app_id_forked
+sudo cp ../conf/logrotate /etc/logrotate.d/$app
 
 echo "Nginx configuration ..."
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf*
 sed -i "s@ALIASTOCHANGE@$final_path/@g" ../conf/nginx.conf*
 sed -i "s@YUNOPORT@$port@g" ../conf/nginx.conf*
+sed -i "s@YUNOAPP@$app@g" ../conf/nginx.conf*
 if [ "$path" = "" ];
 then
-	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app_id_forked.conf
+	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app.conf
 else
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app_id_forked.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 fi
 
 echo "Reloading Nginx..."
