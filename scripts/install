@@ -31,7 +31,8 @@ echo "Installing EtherCalc with NPM..."
 final_path=/var/www/$app
 sudo mkdir -p $final_path
 sudo useradd -d $final_path $app
-su --shell /bin/bash --command "cd $final_path/ && npm install --production $name" $app
+sudo chown -R $app: $final_path
+sudo su --shell /bin/bash --command "cd $final_path/ && npm install --production $name" $app
 
 echo "Cleaning up install tree..."
 sudo rm -rf $final_path/.npm
@@ -39,13 +40,14 @@ find $final_path -type d | grep "test$" | xargs sudo rm -rf
 find $final_path -type d | grep "tests$" | xargs sudo rm -rf
 
 echo "Setting up permissions"
-sudo chown -R ghostblog: $final_path
+sudo chown -R $app: $final_path
 
 echo "Setting up init script..."
 logfile=/var/log/$name/$app.log
 sed -i "s@YUNOPORT@$port@g" ../conf/$name
 sed -i "s@YUNOLOG@$app@g" ../conf/$name
 sed -i "s@YUNOPATH@$path@g" ../conf/$name
+sed -i "s@YUNOAPP@$app@g" ../conf/$name
 sudo cp ../conf/$name /etc/init.d/$app
 sudo chmod +x /etc/init.d/$app
 sudo update-rc.d $app defaults
@@ -66,7 +68,6 @@ echo "Nginx configuration ..."
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf*
 sed -i "s@ALIASTOCHANGE@$final_path/@g" ../conf/nginx.conf*
 sed -i "s@YUNOPORT@$port@g" ../conf/nginx.conf*
-sed -i "s@YUNOAPP@$app@g" ../conf/nginx.conf*
 if [ "$path" = "" ];
 then
 	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app.conf
