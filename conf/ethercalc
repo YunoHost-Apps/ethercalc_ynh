@@ -14,11 +14,11 @@ PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/node/bin
 LOGFILE="/var/log/ethercalc/YUNOLOG.log"
 EPLITE_DIR="/usr/local/bin"
 EPLITE_BIN="ethercalc"
-USER="www-data"
-GROUP="www-data"
+USER="$app"
+GROUP="$app"
 DESC="EtherCalc"
 NAME="$app"
-
+export NODE_ENV=production
 set -e
 
 . /lib/lsb/init-functions

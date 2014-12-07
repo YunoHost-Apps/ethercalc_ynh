@@ -7,9 +7,11 @@ name+="calc"
 domain=$(sudo yunohost app setting $app domain)
 
 sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
-sudo rm -Rf /var/log/$name/$app
+sudo rm -Rf /var/log/$name/$app.log*
 sudo update-rc.d $app remove
 sudo service $app stop
 sudo rm /etc/init.d/$app
+sudo yunohost service remove $app
 
+sudo userdel --remove $app
 
