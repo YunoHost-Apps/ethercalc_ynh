@@ -8,6 +8,7 @@ instance_number=$(echo $app | sed 's/[^0-9]//g')
 domain=$1
 path=$2
 is_public=$3
+expire=$4
 port=$((instance_number+8000))
 
 # Check domain/path availability
@@ -19,6 +20,7 @@ fi
 echo "Register configuration..."
 sudo yunohost app setting $app is_public -v $is_public
 sudo yunohost app setting $app port -v $port
+sudo yunohost app setting $app expire -v $expire
 
 # Remove trailing "/" for next commands
 path=${path%/}
@@ -48,6 +50,12 @@ sed -i "s@YUNOPORT@$port@g" ../conf/$name
 sed -i "s@YUNOLOG@$app@g" ../conf/$name
 sed -i "s@YUNOPATH@$path@g" ../conf/$name
 sed -i "s@YUNOAPP@$app@g" ../conf/$name
+if [ "$expire" -eq 0 ]; then
+	expire=""
+else
+	expire="--expire $(($expire * 86400))"
+fi
+sed -i "s@YUNOEXPIRE@$expire@g" ../conf/$name
 sudo cp ../conf/$name /etc/init.d/$app
 sudo chmod +x /etc/init.d/$app
 sudo update-rc.d $app defaults
