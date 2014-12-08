@@ -12,6 +12,7 @@ sudo update-rc.d $app remove
 sudo service $app stop
 sudo rm /etc/init.d/$app
 sudo yunohost service remove $app
+sudo rm -f /var/www/$app
 
 sudo userdel --remove $app
 
