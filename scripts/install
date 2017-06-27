@@ -21,9 +21,7 @@ ynh_abort_if_errors
 #=================================================
 
 domain=$YNH_APP_ARG_DOMAIN
-admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
-language=$YNH_APP_ARG_LANGUAGE
 path_url="" # Assure la compatibilité avec les fonctions utilisant $path_url
 
 # This is a multi-instance app, meaning it can be installed several times independently
