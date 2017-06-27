@@ -24,7 +24,7 @@
             },
 
             {
-                "name": "public_site",
+                "name": "is_public",
                 "ask": {
                     "en": "Is it a public EtherCalc ?",
                     "fr": "Des personnes n'ayant pas de compte Yunohost peuvent elles utiliser ce EtherCalc ?"
