@@ -22,18 +22,9 @@
                 },
                 "example": "domain.org"
             },
+
             {
-                "name": "path",
-                "type": "path",
-                "ask": {
-                    "en": "Choose a path for EtherCalc",
-                    "fr": "Choisissez un chemin pour EterCalc"
-                },
-                "example": "/calc",
-                "default": "/calc"
-            },
-            {
-                "name": "public_site",
+                "name": "is_public",
                 "ask": {
                     "en": "Is it a public EtherCalc ?",
                     "fr": "Des personnes n'ayant pas de compte Yunohost peuvent elles utiliser ce EtherCalc ?"
