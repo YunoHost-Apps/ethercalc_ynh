@@ -21,7 +21,7 @@ ynh_abort_if_errors
 #=================================================
 
 domain=$YNH_APP_ARG_DOMAIN
-is_public=$YNH_APP_ARG_ISPUBLIC
+is_public=$YNH_APP_ARG_IS_PUBLIC
 path_url="" # Assure la compatibilité avec les fonctions utilisant $path_url
 expire=YNH_APP_ARG_EXPIRE
 
