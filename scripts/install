@@ -23,6 +23,7 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 path_url="" # Assure la compatibilité avec les fonctions utilisant $path_url
+expire=YNH_APP_ARG_EXPIRE
 
 # This is a multi-instance app, meaning it can be installed several times independently
 # The id of the app as stated in the manifest is available as $YNH_APP_ID
@@ -144,6 +145,12 @@ ynh_systemd_config
 ynh_use_nodejs
 sudo_path "$final_path/bin/installDeps.sh" > $install_log 2>&1
 sudo_path npm install forever -g >> $install_log 2>&1
+
+#=================================================
+# CONFIGURE ETHERCALC
+#=================================================
+
+sudo cp ../conf/settings.json "$final_path/settings.json"
 
 #=================================================
 # STORE THE CHECKSUM OF THE CONFIG FILE
