@@ -1,92 +1,202 @@
 #!/bin/bash
 
-app="ethercalc"
-name="ether"
-name+="calc"
-instance_number=$(echo $app | sed 's/[^0-9]//g')
-# Retrieve arguments
-domain=$1
-path=$2
-is_public=$3
-expire=$4
-port=$((instance_number+8000))
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
 
-# Check domain/path availability
-sudo yunohost app checkurl $domain$path -a $app
-if [[ ! $? -eq 0 ]]; then
-exit 1
-fi
+source _common.sh
+source /usr/share/yunohost/helpers
 
-echo "Register configuration..."
-sudo yunohost app setting $app is_public -v $is_public
-sudo yunohost app setting $app port -v $port
-sudo yunohost app setting $app expire -v $expire
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
 
-# Remove trailing "/" for next commands
-path=${path%/}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
-echo "Install dependencies..."
-sudo apt-get update
-sudo apt-get install nodejs-legacy npm redis-server -y
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
 
-echo "Installing EtherCalc with NPM..."
+domain=$YNH_APP_ARG_DOMAIN
+is_public=$YNH_APP_ARG_IS_PUBLIC
+path_url="" # Assure la compatibilité avec les fonctions utilisant $path_url
+expire=YNH_APP_ARG_EXPIRE
+
+# This is a multi-instance app, meaning it can be installed several times independently
+# The id of the app as stated in the manifest is available as $YNH_APP_ID
+# The instance number is available as $YNH_APP_INSTANCE_NUMBER (equals "1", "2", ...)
+# The app instance name is available as $YNH_APP_INSTANCE_NAME
+#    - the first time the app is installed, YNH_APP_INSTANCE_NAME = ynhexample
+#    - the second time the app is installed, YNH_APP_INSTANCE_NAME = ynhexample__2
+#    - ynhexample__{N} for the subsequent installations, with N=3,4, ...
+# The app instance name is probably what you are interested the most, since this is
+# guaranteed to be unique. This is a good unique identifier to define installation path,
+# db names, ...
+app=$YNH_APP_INSTANCE_NAME
+
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+
+# Normalize the url path syntax
+path_url=$(ynh_normalize_url_path $path_url)
+
+# Check web path availability
+ynh_webpath_available $domain $path_url
+# Register (book) web path
+ynh_webpath_register $app $domain $path_url
+
 final_path=/var/www/$app
-sudo mkdir -p $final_path
-sudo useradd -d $final_path $app
-sudo chown -R $app: $final_path
-sudo su --shell /bin/bash --command "cd $final_path/ && npm install --production $name" $app
+test ! -e "$final_path" || ynh_die "This path already contains a folder"
 
-echo "Cleaning up install tree..."
-sudo rm -rf $final_path/.npm
-find $final_path -type d | grep "test$" | xargs sudo rm -rf
-find $final_path -type d | grep "tests$" | xargs sudo rm -rf
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
 
-echo "Setting up permissions"
-sudo chown -R $app: $final_path
+ynh_app_setting_set $app domain $domain
+ynh_app_setting_set $app is_public $is_public
+ynh_app_setting_set $app expire $expire
 
-echo "Setting up init script..."
-logfile=/var/log/$name/$app.log
-sed -i "s@YUNOPORT@$port@g" ../conf/$name
-sed -i "s@YUNOLOG@$app@g" ../conf/$name
-sed -i "s@YUNOPATH@$path@g" ../conf/$name
-sed -i "s@YUNOAPP@$app@g" ../conf/$name
-if [ "$expire" -eq 0 ]; then
-	expire=""
-else
-	expire="--expire $(($expire * 86400))"
+#=================================================
+# STANDARD MODIFICATIONS
+#=================================================
+# FIND AND OPEN A PORT
+#=================================================
+
+# Find a free port
+port=$(ynh_find_port 8095)
+# Open this port
+sudo yunohost firewall allow --no-upnp TCP $port 2>&1
+ynh_app_setting_set $app port $port
+
+
+#=================================================
+# INSTALL NODEJS
+#=================================================
+
+ynh_install_nodejs 4.8.3
+
+#=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+
+
+#=================================================
+# CREATE A MYSQL DATABASE
+#=================================================
+# If your app uses a MySQL database, you can use these lines to bootstrap
+# a database, an associated user and save the password in app settings
+
+db_name=$(ynh_sanitize_dbid $app)
+ynh_app_setting_set $app db_name $db_name
+ynh_mysql_setup_db $db_name $db_name
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+
+ynh_app_setting_set $app final_path $final_path
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source "$final_path"
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+
+# Create a dedicated nginx config
+ynh_nginx_config
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+
+# Create a system user
+ynh_system_user_create $app
+
+#=================================================
+# PHP-FPM CONFIGURATION
+#=================================================
+
+# Create a dedicated php-fpm config
+ynh_fpm_config
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+
+#=================================================
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+
+# Create a dedicated systemd config
+ynh_systemd_config
+
+#=================================================
+# INSTALL ETHERCALC
+#=================================================
+
+# Installe les dépendances de ethercalc et procède à l'intallation.
+ynh_use_nodejs
+sudo_path "$final_path/bin/installDeps.sh" > $install_log 2>&1
+sudo_path npm install forever -g >> $install_log 2>&1
+
+#=================================================
+# CONFIGURE ETHERCALC
+#=================================================
+
+sudo cp ../conf/settings.json "$final_path/settings.json"
+
+#=================================================
+# STORE THE CHECKSUM OF THE CONFIG FILE
+#=================================================
+
+# Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum "$final_path/CONFIG_FILE"
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+# Set permissions to app files
+sudo chown -R root: $final_path
+
+#=================================================
+# SETUP LOGROTATE
+#=================================================
+
+# Use logrotate to manage application logfile(s)
+ynh_use_logrotate
+
+#=================================================
+# ADVERTISE SERVICE IN ADMIN PANEL
+#=================================================
+
+sudo yunohost service add $app --log "/var/log/ethercalc.log"
+
+#=================================================
+# SETUP SSOWAT
+#=================================================
+
+if [ $is_public -eq 0 ]
+then	# Remove the public access
+	ynh_app_setting_delete $app skipped_uris
 fi
-sed -i "s@YUNOEXPIRE@$expire@g" ../conf/$name
-sudo cp ../conf/$name /etc/init.d/$app
-sudo chmod +x /etc/init.d/$app
-sudo update-rc.d $app defaults
-if [ ! -d "/var/log/$name/" ]; then
-	sudo mkdir /var/log/$name/
-fi
-sudo touch $logfile
-sudo chown $app $logfile
-sudo service $app stop
-sudo service $app start
-sudo yunohost service add $app -l $logfile
-
-echo "Setting up logrotate configuration..."
-sed -i "s@YNH_LOGFILE@$logfile@g" ../conf/logrotate
-sudo cp ../conf/logrotate /etc/logrotate.d/$app
-
-echo "Nginx configuration ..."
-sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf*
-sed -i "s@ALIASTOCHANGE@$final_path/@g" ../conf/nginx.conf*
-sed -i "s@YUNOPORT@$port@g" ../conf/nginx.conf*
-if [ "$path" = "" ];
+# Make app public if necessary
+if [ $is_public -eq 1 ]
 then
-	sudo cp ../conf/nginx.conf-nosub /etc/nginx/conf.d/$domain.d/$app.conf
-else
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	# unprotected_uris allows SSO credentials to be passed anyway.
+	ynh_app_setting_set $app unprotected_uris "/"
 fi
 
-echo "Reloading Nginx..."
-sudo service nginx reload
-if [ "$is_public" = "Yes" ];
-then
-	sudo yunohost app setting ethercalc skipped_uris -v "/" 
-fi
-sudo yunohost app ssowatconf
+#=================================================
+# RELOAD NGINX
+#=================================================
+
+sudo systemctl reload nginx
