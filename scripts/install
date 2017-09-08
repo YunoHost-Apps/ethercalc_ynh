@@ -106,7 +106,7 @@ ethercalc
 #=================================================
 
 # Create a dedicated nginx config
-ynh_nginx_config
+ynh_add_nginx_config
 
 #=================================================
 # CREATE DEDICATED USER
@@ -120,7 +120,7 @@ ynh_system_user_create $app
 #=================================================
 
 # Create a dedicated php-fpm config
-ynh_fpm_config
+ynh_add_fpm_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -133,7 +133,7 @@ ynh_fpm_config
 #=================================================
 
 # Create a dedicated systemd config
-ynh_systemd_config
+ynh_add_systemd_config
 
 #=================================================
 # INSTALL ETHERCALC
