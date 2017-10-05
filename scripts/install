@@ -98,9 +98,8 @@ ynh_mysql_setup_db $db_name $db_name
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-npm install -g ethercalc
-ethercalc
-
+npm install ethercalc
+./node_modules/ethercalc/bin/ethercalc
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
