@@ -97,7 +97,7 @@ ynh_mysql_setup_db $db_name $db_name
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
+ynh_use_nodejs
 npm install ethercalc
 ./node_modules/ethercalc/bin/ethercalc
 #=================================================
@@ -131,10 +131,6 @@ ynh_add_systemd_config
 # INSTALL ETHERCALC
 #=================================================
 
-# Installe les dépendances de ethercalc et procède à l'intallation.
-ynh_use_nodejs
-sudo_path "$final_path/bin/installDeps.sh" > $install_log 2>&1
-sudo_path npm install forever -g >> $install_log 2>&1
 
 #=================================================
 # CONFIGURE ETHERCALC
