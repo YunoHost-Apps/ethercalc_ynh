@@ -82,7 +82,7 @@ ynh_install_nodejs 6.2.2
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_install_app_dependencies redis-server
+apt-get -yy install redis-server
 
 #=================================================
 # CREATE A MYSQL DATABASE
