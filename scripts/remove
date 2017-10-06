@@ -7,6 +7,12 @@ name+="calc"
 domain=$(sudo yunohost app setting $app domain)
 # Remove nodejs
 ynh_remove_nodejs
+#=================================================
+# REMOVE THE MYSQL DATABASE
+#=================================================
+
+# Remove a database if it exists, along with the associated user
+ynh_mysql_remove_db $db_name $db_name
 sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
 sudo rm -Rf /var/log/$name/$app.log*
 sudo update-rc.d $app remove
