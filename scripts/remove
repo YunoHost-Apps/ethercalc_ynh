@@ -5,7 +5,8 @@ name="ether"
 name+="calc"
 
 domain=$(sudo yunohost app setting $app domain)
-
+# Remove nodejs
+ynh_remove_nodejs
 sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
 sudo rm -Rf /var/log/$name/$app.log*
 sudo update-rc.d $app remove
