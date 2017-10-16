@@ -120,7 +120,7 @@ ynh_system_user_create $app
 # CONFIGURE ETHERCALC
 #=================================================
 
-sudo cp ../conf/settings.json "$final_path/settings.json"
+sudo cp ../conf/ethercalc "$final_path/ethercalc"
 
 #=================================================
 # STORE THE CHECKSUM OF THE CONFIG FILE
