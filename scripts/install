@@ -77,7 +77,7 @@ ynh_app_setting_set $app port $port
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs 6.2.2
+ynh_install_nodejs 4
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -97,9 +97,11 @@ ynh_mysql_setup_db $db_name $db_name
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_app_setting_set $app final_path $final_path
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source "$final_path"
 ynh_use_nodejs
-npm i -g ethercalc
-ethercalc
+npm install
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -143,7 +145,7 @@ sudo cp ../conf/settings.json "$final_path/settings.json"
 #=================================================
 
 # Calculate and store the config file checksum into the app settings
-ynh_store_file_checksum "$final_path/CONFIG_FILE"
+ynh_store_file_checksum "$final_path/settings.json"
 
 #=================================================
 # GENERIC FINALIZATION
