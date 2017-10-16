@@ -77,7 +77,7 @@ ynh_app_setting_set $app port $port
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs 4
+ynh_install_nodejs 6.0.0
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -85,23 +85,11 @@ ynh_install_nodejs 4
 apt-get -yy install redis-server
 
 #=================================================
-# CREATE A MYSQL DATABASE
-#=================================================
-# If your app uses a MySQL database, you can use these lines to bootstrap
-# a database, an associated user and save the password in app settings
-
-db_name=$(ynh_sanitize_dbid $app)
-ynh_app_setting_set $app db_name $db_name
-ynh_mysql_setup_db $db_name $db_name
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_app_setting_set $app final_path $final_path
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source "$final_path"
 ynh_use_nodejs
-npm install
+npm install -g ethercalc
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
