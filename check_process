@@ -3,7 +3,7 @@
 	; Manifest
 		domain="domain.tld"	(DOMAIN)
 		path="/path"	(PATH)
-		is_public="1"
+		is_public=1
 		expire="0"
 	; Checks
 		pkg_linter=1
