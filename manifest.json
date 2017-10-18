@@ -22,15 +22,14 @@
                 },
                 "example": "domain.org"
             },
-
             {
                 "name": "is_public",
+                "type": "boolean",
                 "ask": {
-                    "en": "Is it a public EtherCalc ?",
-                    "fr": "Des personnes n'ayant pas de compte Yunohost peuvent elles utiliser ce EtherCalc ?"
+                    "en": "Is it a public application?",
+                    "fr": "Est-ce une application publique ?"
                 },
-                "choices": ["Yes", "No"],
-                "default": "Yes"
+                "default": true
             },
             {
                 "name": "expire",
