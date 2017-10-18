@@ -124,11 +124,6 @@ ynh_system_user_create $app
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions to app files
-sudo chown -R root: $final_path
 
 #=================================================
 # SETUP LOGROTATE
