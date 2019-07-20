@@ -13,8 +13,8 @@
         "email": "ljf+ethercalc_ynh@reflexlibre.net",
         "url": "https://reflexlibre.net"
     },
-    "multi_instance": false,
-    "url": "https://https://ethercalc.net/",
+    "multi_instance": true,
+    "url": "https://ethercalc.net/",
     "requirements": {
         "yunohost": ">= 2.7.2"
     },
