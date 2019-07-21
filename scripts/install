@@ -22,7 +22,7 @@ ynh_abort_if_errors
 
 domain=$YNH_APP_ARG_DOMAIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
-path_url="" # Assure la compatibilité avec les fonctions utilisant $path_url
+path_url="/"
 expire=YNH_APP_ARG_EXPIRE
 
 # This is a multi-instance app, meaning it can be installed several times independently
@@ -40,9 +40,6 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
-
-# Normalize the url path syntax
-path_url=$(ynh_normalize_url_path $domain)
 
 # Check web path availability
 ynh_webpath_available $domain $path_url
