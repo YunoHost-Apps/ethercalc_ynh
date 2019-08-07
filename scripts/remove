@@ -28,6 +28,8 @@ final_path=$(ynh_app_setting_get $app final_path)
 
 ynh_remove_systemd_config
 
+ynh_secure_remove /etc/systemd/system/ethercalc.env
+
 #=================================================
 # REMOVE SERVICE FROM ADMIN PANEL
 #=================================================
