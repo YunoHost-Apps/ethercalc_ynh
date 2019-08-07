@@ -26,7 +26,6 @@ final_path=$(ynh_app_setting_get $app final_path)
 # STOP AND REMOVE SERVICE
 #=================================================
 
-# Remove the dedicated systemd config
 ynh_remove_systemd_config
 
 #=================================================
@@ -43,35 +42,30 @@ fi
 # REMOVE DEPENDENCIES
 #=================================================
 
-# Remove metapackage and its dependencies
 ynh_remove_app_dependencies
 
 #=================================================
 # REMOVE THE MYSQL DATABASE
 #=================================================
 
-# Remove a database if it exists, along with the associated user
 ynh_mysql_remove_db $db_name $db_name
 
 #=================================================
 # REMOVE APP MAIN DIR
 #=================================================
 
-# Remove the app directory securely
 ynh_secure_remove "$final_path"
 
 #=================================================
 # REMOVE NGINX CONFIGURATION
 #=================================================
 
-# Remove the dedicated nginx config
 ynh_remove_nginx_config
 
 #=================================================
 # REMOVE LOGROTATE CONFIGURATION
 #=================================================
 
-# Remove the app-specific logrotate config
 ynh_remove_logrotate
 
 #=================================================
@@ -90,13 +84,10 @@ fi
 # REMOVE THE CRON FILE
 #=================================================
 
-# Remove a cron file
 ynh_secure_remove "/etc/cron.d/$app"
 
-# Remove a directory securely
 ynh_secure_remove "/etc/$app/"
 
-# Remove the log files
 ynh_secure_remove "/var/log/$app/"
 
 #=================================================
@@ -105,5 +96,4 @@ ynh_secure_remove "/var/log/$app/"
 # REMOVE DEDICATED USER
 #=================================================
 
-# Delete a system user
 ynh_system_user_delete $app
