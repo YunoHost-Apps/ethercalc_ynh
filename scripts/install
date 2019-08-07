@@ -58,7 +58,9 @@ ynh_app_setting_set $app port $port
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs 4.8.7
+ynh_install_nodejs $node_version
+
+ynh_app_setting_set $app node_version $node_version
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -100,6 +102,7 @@ ynh_add_systemd_config
 
 ynh_replace_string --match_string="__PORT__" --replace_string=$port --target_file=/etc/systemd/system/ethercalc.service
 ynh_replace_string --match_string="__EXPIRE__" --replace_string=$expire --target_file=/etc/systemd/system/ethercalc.service
+ynh_replace_string --match_string="__NODE_VERSION__" --replace_string=$node_version --target_file=/etc/systemd/system/ethercalc.service
 
 cp ../conf/ethercalc.env /etc/systemd/system/ethercalc.env
 
