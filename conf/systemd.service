@@ -9,7 +9,7 @@ Group=__APP__
 WorkingDirectory=__FINALPATH__
 Environment="PATH=__ENV_PATH__"
 Environment="NODE_ENV=production"
-ExecStart=__FINALPATH__/ethercalc --port __PORT__ --expire __EXPIRE__
+ExecStart=__YNH_NPM__ ethercalc --port __PORT__ --expire __EXPIRE__
 RuntimeMaxSec=86400
 Restart=always
 
