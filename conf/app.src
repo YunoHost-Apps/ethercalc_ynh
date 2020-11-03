@@ -1,0 +1,6 @@
+SOURCE_URL=https://github.com/audreyt/ethercalc/archive/0.20170704.0.tar.gz
+SOURCE_SUM=09d85c780c142c4a1c2c6099f52b8660b5f788c40b6f5d7bd37f0acfdf15b098
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=

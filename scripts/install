@@ -114,6 +114,12 @@ ynh_replace_string --match_string="__EXPIRE__" --replace_string=$expire --target
 ynh_add_systemd_config
 
 #=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+chown -R $app: $final_path
+
+#=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
