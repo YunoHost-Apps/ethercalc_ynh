@@ -6,10 +6,10 @@ After=network.target
 Type=simple
 User=__APP__
 Group=__APP__
-Environment="NODE_ENV=production"
-Environment="__YNH_NODE_LOAD_PATH__"
 WorkingDirectory=__FINALPATH__
-ExecStart=/ethercalc --port __PORT__ --expire __EXPIRE__
+Environment="PATH=__ENV_PATH__"
+Environment="NODE_ENV=production"
+ExecStart=__FINALPATH__/ethercalc --port __PORT__ --expire __EXPIRE__
 RuntimeMaxSec=86400
 Restart=always
 
