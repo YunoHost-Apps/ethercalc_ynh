@@ -2,11 +2,12 @@
     "name": "EtherCalc",
     "id": "ethercalc",
     "packaging_format": 1,
-    "version": "0.20170704.0~ynh1",
     "description": {
         "en": "Online web spreadsheet editor providing collaborative editing in really real-time",
         "fr": "Feuille de calcul collaborative en ligne"
     },
+    "version": "0.20170704.0~ynh1",
+    "url": "https://ethercalc.net/",
     "license": "CPAL-1.0&Artistic-2.0",
     "maintainer": {
         "name": "ljf",
@@ -14,9 +15,8 @@
         "url": "https://reflexlibre.net"
     },
     "multi_instance": true,
-    "url": "https://ethercalc.net/",
     "requirements": {
-        "yunohost": ">= 2.7.2"
+        "yunohost": ">= 4.0.0"
     },
     "services": [
         "nginx",
@@ -50,8 +50,6 @@
                 },
                 "default": "0"
             }
-
-
         ]
     }
 }

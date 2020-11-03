@@ -29,74 +29,83 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
-
-ynh_webpath_available $domain $path_url
-ynh_webpath_register $app $domain $path_url
+ynh_script_progression --message="Validating installation parameters..." --time --weight=1
 
 final_path=/var/www/$app
-test ! -e "$final_path" || ynh_die "This path already contains a folder"
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
+
+# Register (book) web path
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
 
-ynh_app_setting_set $app domain $domain
-ynh_app_setting_set $app is_public $is_public
-ynh_app_setting_set $app expire $expire
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=is_public --value=$is_public
+ynh_app_setting_set --app=$app --key=expire --value=$expire
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
 # FIND AND OPEN A PORT
 #=================================================
+ynh_script_progression --message="Configuring firewall..." --time --weight=1
 
-port=$(ynh_find_port 8095)
-sudo yunohost firewall allow --no-upnp TCP $port 2>&1
-ynh_app_setting_set $app port $port
-
-#=================================================
-# INSTALL NODEJS
-#=================================================
-
-ynh_install_nodejs $node_version
-
-ynh_app_setting_set $app node_version $node_version
+port=$(ynh_find_port --port=8095)
+ynh_app_setting_set --app=$app --key=port --value=$port
 
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
+ynh_script_progression --message="Installing dependencies..." --weight=20
 
 ynh_install_app_dependencies $pkg_dependencies
+
+# Install Nodejs
+ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Setting up source files..." --weight=2
 
-ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir=$final_path
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Configuring NGINX web server..." --weight=2
 
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
+ynh_script_progression --message="Configuring system user..." --weight=3
 
-ynh_system_user_create $app
+# Create a system user
+ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # INSTALL ETHERCALC
 #=================================================
+ynh_script_progression --message="Building CodiMD... (this will take some time and resources!)" --weight=240
 
-ynh_use_nodejs
-
-npm install -g ethercalc
+pushd "$final_path" || ynh_die
+	ynh_use_nodejs
+	ynh_exec_warn_less npm install -g ethercalc
+popd || ynh_die
 
 #=================================================
 # SETUP SYSTEMD BASED SERVICES
 #=================================================
+ynh_script_progression --message="Configuring a systemd service..." --weight=1
 
 ynh_add_systemd_config
 
@@ -133,19 +142,25 @@ sudo yunohost service add $app --log "/var/log/ethercalc.log"
 #=================================================
 # SETUP SSOWAT
 #=================================================
+ynh_script_progression --message="Configuring SSOwat..." --weight=1
 
-if [ $is_public -eq 0 ]
-then	
-	ynh_app_setting_delete $app skipped_uris
-fi
-
+# Make app public if necessary or protect it
 if [ $is_public -eq 1 ]
 then
-	ynh_app_setting_set $app unprotected_uris "/"
+	# Everyone can access the app.
+	# The "main" permission is automatically created before the install script.
+	 	ynh_permission_update --permission "main" --add "visitors"
 fi
 
 #=================================================
 # RELOAD NGINX
 #=================================================
+ynh_script_progression --message="Reloading NGINX web server..." --weight=2
 
 ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Installation of EtherCalc completed" --last

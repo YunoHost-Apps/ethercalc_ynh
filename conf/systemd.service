@@ -1,12 +1,14 @@
 [Unit]
-Description=Run Ethercalc, the collaborative spreadsheet editor.
+Description=Ethercalc, the collaborative spreadsheet editor.
 After=network.target
 
 [Service]
 Type=simple
 User=__APP__
 Group=__APP__
-ExecStart=/opt/node_n/n/versions/node/__NODE_VERSION__/bin/ethercalc --port __PORT__ --expire __EXPIRE__
+Environment="NODE_ENV=production"
+Environment="__YNH_NODE_LOAD_PATH__"
+ExecStart=/usr/bin/ethercalc --port __PORT__ --expire __EXPIRE__
 EnvironmentFile=/etc/systemd/system/ethercalc.env
 RuntimeMaxSec=86400
 Restart=always
