@@ -4,7 +4,7 @@
 # COMMON VARIABLES
 #=================================================
 
-pkg_dependencies="redis-server g++ make"
+pkg_dependencies="redis-server redis-tools"
 
 nodejs_version=12
 
