@@ -9,7 +9,6 @@ Group=__APP__
 Environment="NODE_ENV=production"
 Environment="__YNH_NODE_LOAD_PATH__"
 ExecStart=/usr/bin/ethercalc --port __PORT__ --expire __EXPIRE__
-EnvironmentFile=/etc/systemd/system/ethercalc.env
 RuntimeMaxSec=86400
 Restart=always
 
