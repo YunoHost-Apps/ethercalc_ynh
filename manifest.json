@@ -19,8 +19,7 @@
         "yunohost": ">= 4.0.0"
     },
     "services": [
-        "nginx",
-        "redis-server"
+        "nginx"
     ],
     "arguments": {
         "install" : [
@@ -44,6 +43,7 @@
             },
             {
                 "name": "expire",
+                "type": "string",
                 "ask": {
                     "en": "Deletes a spreadsheet's content after N days of inactivity. (0 to diasable this feature)",
                     "fr": "Suppression après N jours d'inactivités. (0 pour désactiver cette fonctionnalité)"
