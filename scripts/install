@@ -13,6 +13,9 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
+ynh_clean_setup () {
+	ynh_clean_check_starting
+}
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
@@ -95,7 +98,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # INSTALL ETHERCALC
 #=================================================
-ynh_script_progression --message="Building EtherCalc... (this will take some time and resources!)" --weight=240
+ynh_script_progression --message="Building EtherCalc... (this will take some time and resources!)" --weight=24
 
 pushd "$final_path" || ynh_die
 	ynh_use_nodejs
@@ -109,7 +112,6 @@ ynh_script_progression --message="Configuring a systemd service..." --weight=1
 
 ynh_replace_string --match_string="__PORT__" --replace_string=$port --target_file=../conf/systemd.service
 ynh_replace_string --match_string="__EXPIRE__" --replace_string=$expire --target_file=../conf/systemd.service
-#ynh_replace_string --match_string="__NODE_VERSION__" --replace_string=$node_version --target_file=../conf/systemd.service
 
 ynh_add_systemd_config
 
@@ -122,8 +124,9 @@ chown -R $app: $final_path
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
+ynh_script_progression --message="Integrating service in YunoHost..." --weight=1
 
-sudo yunohost service add $app --log "/var/log/ethercalc.log"
+yunohost service add $app --description "Collaborative spreadsheet editor" --log "/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
