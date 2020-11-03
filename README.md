@@ -13,7 +13,7 @@ EtherCalc is a web spreadsheet. Your data is saved on the web, and people can ed
 
 ## Screenshots
 
-![](https://ethercalc.org/static/img/davy/gfx/screenshot.png)
+![](https://accueil.framacalc.org/img/fr/screenshot.png)
 
 ## Demo
 
