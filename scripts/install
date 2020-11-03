@@ -24,6 +24,7 @@ domain=$YNH_APP_ARG_DOMAIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 path_url="/"
 expire=$YNH_APP_ARG_EXPIRE
+
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -43,7 +44,6 @@ ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
-ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 ynh_app_setting_set --app=$app --key=expire --value=$expire
 
@@ -95,7 +95,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # INSTALL ETHERCALC
 #=================================================
-ynh_script_progression --message="Building CodiMD... (this will take some time and resources!)" --weight=240
+ynh_script_progression --message="Building EtherCalc... (this will take some time and resources!)" --weight=240
 
 pushd "$final_path" || ynh_die
 	ynh_use_nodejs
@@ -107,37 +107,25 @@ popd || ynh_die
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --weight=1
 
+ynh_replace_string --match_string="__PORT__" --replace_string=$port --target_file=../conf/systemd.service
+ynh_replace_string --match_string="__EXPIRE__" --replace_string=$expire --target_file=../conf/systemd.service
+#ynh_replace_string --match_string="__NODE_VERSION__" --replace_string=$node_version --target_file=../conf/systemd.service
+
 ynh_add_systemd_config
-
-ynh_replace_string --match_string="__PORT__" --replace_string=$port --target_file=/etc/systemd/system/ethercalc.service
-ynh_replace_string --match_string="__EXPIRE__" --replace_string=$expire --target_file=/etc/systemd/system/ethercalc.service
-ynh_replace_string --match_string="__NODE_VERSION__" --replace_string=$node_version --target_file=/etc/systemd/system/ethercalc.service
-
-cp ../conf/ethercalc.env /etc/systemd/system/ethercalc.env
-
-#=================================================
-# START SYSTEMD SERVICE
-#=================================================
-
-ynh_systemd_action --service_name=ethercalc --action=enable
-
-ynh_systemd_action --service_name=ethercalc --action=start
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-
-ynh_use_logrotate
 
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
 sudo yunohost service add $app --log "/var/log/ethercalc.log"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Starting a systemd service..." --weight=2
+
+# Start a systemd service
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd" --line_match="HTTP Server listening"
 
 #=================================================
 # SETUP SSOWAT
@@ -149,7 +137,7 @@ if [ $is_public -eq 1 ]
 then
 	# Everyone can access the app.
 	# The "main" permission is automatically created before the install script.
-	 	ynh_permission_update --permission "main" --add "visitors"
+	ynh_permission_update --permission "main" --add "visitors"
 fi
 
 #=================================================
