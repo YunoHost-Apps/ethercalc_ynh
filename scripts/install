@@ -121,6 +121,7 @@ ynh_add_systemd_config
 #=================================================
 
 chown -R $app: $final_path
+chmod 755 $final_path
 chmod +x $final_path/bin/runSafe.sh
 
 #=================================================
