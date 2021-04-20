@@ -6,7 +6,7 @@
 
 pkg_dependencies="redis-server redis-tools"
 
-nodejs_version=12
+nodejs_version=14
 
 #=================================================
 # PERSONAL HELPERS

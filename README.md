@@ -1,7 +1,7 @@
 # EtherCalc for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/ethercalc.svg)](https://dash.yunohost.org/appci/app/ethercalc) ![](https://ci-apps.yunohost.org/ci/badges/ethercalc.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/ethercalc.maintain.svg)  
-[![Install EtherCalc with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=ethercalc)
+[![Install EtherCalc with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=ethercalc)
 
 > *This package allow you to install EtherCalc quickly and simply on a YunoHost server.
 If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
@@ -35,8 +35,8 @@ N/A.
 
 #### Supported architectures
 
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/ethercalc%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/ethercalc/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/ethercalc%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/ethercalc/)
+* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/ethercalc.svg)](https://ci-apps.yunohost.org/ci/apps/ethercalc/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/ethercalc.svg)](https://ci-apps-arm.yunohost.org/ci/apps/ethercalc/)
 
 ## Limitations
 
