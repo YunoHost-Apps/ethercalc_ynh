@@ -54,7 +54,7 @@ ynh_app_setting_set --app=$app --key=expire --value=$expire
 #=================================================
 # FIND AND OPEN A PORT
 #=================================================
-ynh_script_progression --message="Configuring firewall..." --weight=3
+ynh_script_progression --message="Finding an available port..." --weight=3
 
 port=$(ynh_find_port --port=8095)
 ynh_app_setting_set --app=$app --key=port --value=$port
@@ -99,10 +99,10 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 ynh_script_progression --message="Building EtherCalc... (this will take some time and resources!)" --weight=24
 
-pushd "$final_path" || ynh_die
+pushd "$final_path"
 	ynh_use_nodejs
-	ynh_exec_warn_less npm install -g ethercalc
-popd || ynh_die
+	ynh_exec_warn_less npm i -g ethercalc
+popd
 
 #=================================================
 # SETUP SYSTEMD BASED SERVICES
@@ -127,7 +127,7 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..." --weight=1
 
-yunohost service add $app --description "Collaborative spreadsheet editor" --log "/var/log/$app/$app.log"
+yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -135,12 +135,12 @@ yunohost service add $app --description "Collaborative spreadsheet editor" --log
 ynh_script_progression --message="Starting a systemd service..." --weight=2
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="systemd" #--line_match="HTTP Server listening"
+ynh_systemd_action --service_name=$app --action=start --log_path="systemd" #--line_match="HTTP Server listening"
 
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Configuring SSOwat..." --weight=1
+ynh_script_progression --message="Configuring permissions..." --weight=1
 
 # Make app public if necessary or protect it
 if [ $is_public -eq 1 ]

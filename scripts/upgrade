@@ -110,10 +110,10 @@ ynh_system_user_create --username=$app
 #=================================================
 ynh_script_progression --message="Building EtherCalc... (this will take some time and resources!)" --weight=24
 
-pushd "$final_path" || ynh_die
+pushd "$final_path"
 	ynh_use_nodejs
 	ynh_exec_warn_less npm install -g ethercalc
-popd || ynh_die
+popd
 
 #=================================================
 # GENERIC FINALIZATION
@@ -129,7 +129,7 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..." --weight=2
 
-yunohost service add $app --description "Collaborative spreadsheet editor" --log "/var/log/$app/$app.log"
+yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
