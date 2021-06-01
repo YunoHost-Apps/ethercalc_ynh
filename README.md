@@ -21,6 +21,10 @@ Online web spreadsheet editor providing collaborative editing in really real-tim
 
 
 
+## Screenshots
+
+![](./doc/screenshots/screenshot.png)
+
 ## Documentation and resources
 
 * YunoHost documentation for this app: https://yunohost.org/app_ethercalc
