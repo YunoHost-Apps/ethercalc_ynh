@@ -13,9 +13,9 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Feuille de calcul collaborative en ligne
 
-**Version incluse :** 0.20170704.0~ynh1
+**Version incluse :** 20201228~ynh1
 
-
+**Démo :** https://ethercalc.net/
 
 ## Captures d'écran
 
@@ -23,6 +23,8 @@ Feuille de calcul collaborative en ligne
 
 ## Documentations et ressources
 
+* Site officiel de l'app : https://ethercalc.net/
+* Dépôt de code officiel de l'app : https://github.com/audreyt/ethercalc
 * Documentation YunoHost pour cette app : https://yunohost.org/app_ethercalc
 * Signaler un bug : https://github.com/YunoHost-Apps/ethercalc_ynh/issues
 

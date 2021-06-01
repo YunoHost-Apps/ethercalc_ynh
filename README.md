@@ -17,9 +17,9 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Online web spreadsheet editor providing collaborative editing in really real-time
 
-**Shipped version:** 0.20170704.0~ynh1
+**Shipped version:** 20201228~ynh1
 
-
+**Demo:** https://ethercalc.net/
 
 ## Screenshots
 
@@ -27,6 +27,8 @@ Online web spreadsheet editor providing collaborative editing in really real-tim
 
 ## Documentation and resources
 
+* Official app website: https://ethercalc.net/
+* Upstream app code repository: https://github.com/audreyt/ethercalc
 * YunoHost documentation for this app: https://yunohost.org/app_ethercalc
 * Report a bug: https://github.com/YunoHost-Apps/ethercalc_ynh/issues
 
