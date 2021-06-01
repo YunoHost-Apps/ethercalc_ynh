@@ -1,8 +1,9 @@
 ;; Test complet
 	auto_remove=1
 	; Manifest
-		domain="domain.tld"	(DOMAIN)
-		path="/path"	(PATH)
+		domain="domain.tld"
+		path="/"
+		admin="john"
 		is_public=1
 		expire="0"
 	; Checks
@@ -14,11 +15,8 @@
 		setup_public=1
 		upgrade=1
 		backup_restore=1
-		multi_instance=0
-		wrong_user=0
-		wrong_path=1
-		incorrect_path=0
-		corrupt_source=0
-		fail_download_source=0
-		port_already_use=0
-		final_path_already_use=0
+		multi_instance=1
+		change_url=1
+;;; Options
+Email=
+Notification=none

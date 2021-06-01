@@ -1,0 +1,17 @@
+[Unit]
+Description=Ethercalc, the collaborative spreadsheet editor.
+After=network.target
+
+[Service]
+Type=simple
+User=__APP__
+Group=__APP__
+WorkingDirectory=__FINALPATH__
+Environment="PATH=__ENV_PATH__"
+Environment="NODE_ENV=production"
+ExecStart=__FINALPATH__/bin/ethercalc --host 127.0.0.1 --port __PORT__ --expire __EXPIRE__ --polling --basepath /path/prefix
+RuntimeMaxSec=86400
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

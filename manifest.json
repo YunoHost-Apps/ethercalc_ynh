@@ -2,56 +2,52 @@
     "name": "EtherCalc",
     "id": "ethercalc",
     "packaging_format": 1,
-    "version": "0.20170704.0~ynh1",
     "description": {
         "en": "Online web spreadsheet editor providing collaborative editing in really real-time",
         "fr": "Feuille de calcul collaborative en ligne"
     },
-    "license": "CPAL-1.0&Artistic-2.0",
+    "version": "20201228~ynh1",
+    "url": "https://ethercalc.net/",
+    "upstream": {
+        "license": "CPAL-1.0",
+        "website": "https://ethercalc.net/",
+        "demo": "https://ethercalc.net/",
+        "code": "https://github.com/audreyt/ethercalc"
+    },
+    "license": "CPAL-1.0",
     "maintainer": {
         "name": "ljf",
         "email": "ljf+ethercalc_ynh@reflexlibre.net",
         "url": "https://reflexlibre.net"
     },
     "multi_instance": true,
-    "url": "https://ethercalc.net/",
     "requirements": {
-        "yunohost": ">= 2.7.2"
+        "yunohost": ">= 4.2.4"
     },
     "services": [
-        "nginx",
-        "redis-server"
+        "nginx"
     ],
     "arguments": {
         "install" : [
             {
                 "name": "domain",
                 "type": "domain",
-                "ask": {
-                    "en": "Choose a domain for EtherCalc",
-                    "fr": "Choisissez un domaine pour EterCalc"
-                },
                 "example": "domain.org"
             },
             {
                 "name": "is_public",
                 "type": "boolean",
-                "ask": {
-                    "en": "Is it a public application?",
-                    "fr": "Est-ce une application publique ?"
-                },
                 "default": true
             },
             {
                 "name": "expire",
+                "type": "string",
                 "ask": {
                     "en": "Deletes a spreadsheet's content after N days of inactivity. (0 to diasable this feature)",
                     "fr": "Suppression après N jours d'inactivités. (0 pour désactiver cette fonctionnalité)"
                 },
                 "default": "0"
             }
-
-
         ]
     }
 }
