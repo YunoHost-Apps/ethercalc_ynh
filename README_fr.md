@@ -17,6 +17,10 @@ Feuille de calcul collaborative en ligne
 
 
 
+## Captures d'écran
+
+![](./doc/screenshots/screenshot.png)
+
 ## Documentations et ressources
 
 * Documentation YunoHost pour cette app : https://yunohost.org/app_ethercalc
