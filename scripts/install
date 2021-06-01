@@ -70,6 +70,14 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..." --weight=3
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir=$final_path
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=2
@@ -78,6 +86,11 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir=$final_path
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+chmod +x $final_path/bin/runSafe.sh
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -85,14 +98,6 @@ ynh_script_progression --message="Configuring NGINX web server..." --weight=2
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..." --weight=3
-
-# Create a system user
-ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # INSTALL ETHERCALC
@@ -115,14 +120,6 @@ ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_f
 ynh_replace_string --match_string="__EXPIRE__" --replace_string="$expire" --target_file="../conf/systemd.service"
 
 ynh_add_systemd_config
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-chown -R $app: $final_path
-chmod 755 $final_path
-chmod +x $final_path/bin/runSafe.sh
 
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
