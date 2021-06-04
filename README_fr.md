@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Feuille de calcul collaborative en ligne
 
-**Version incluse :** 20201228~ynh1
+**Version incluse :** 20201228~ynh2
 
 **Démo :** https://ethercalc.net/
 
