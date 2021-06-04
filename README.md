@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Online web spreadsheet editor providing collaborative editing in really real-time
 
-**Shipped version:** 20201228~ynh1
+**Shipped version:** 20201228~ynh2
 
 **Demo:** https://ethercalc.net/
 
