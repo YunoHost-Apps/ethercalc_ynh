@@ -15,7 +15,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Online web spreadsheet editor providing collaborative editing in really real-time
+EtherCalc is a collaborative spreadsheet that can be edited in real time. Each spreadsheet has its own URL. It has the basic functionalities: formatting, mathematical functions, graphics, adding comments, version history, export in HTML or in CSV. EtherCalc is a decentralized software: different instances allow the use of the service, they are made available by several organizations (for example the eponymous site or the FramaCalc service). This makes it possible to avoid concentrating all the data in the hands of the same actor. Instances can be personalized (limitation of the duration of hosting of the spreadsheet, modification of the design, etc.).
 
 **Shipped version:** 20201228~ynh2
 
