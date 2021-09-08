@@ -11,9 +11,10 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-Feuille de calcul collaborative en ligne
+EtherCalc est un tableur collaboratif éditable en temps réel. Chaque tableur possède sa propre URL. Il dispose des fonctionnalités de base : mise en forme, fonctions mathématiques, graphiques, ajout de commentaires, historique des versions, export en HTML ou en CSV. EtherCalc est un logiciel décentralisé : différentes instances permettent d'utiliser le service, elles sont mises à disposition par plusieurs organisations (par exemple le site éponyme ou le service FramaCalc). Cela permet d'éviter de concentrer toutes les données entre les mains d'un même acteur. Les instances peuvent être personnalisées (limitation de la durée d'hébergement du tableur, modification du design, etc.).
 
-**Version incluse :** 20201228~ynh2
+
+**Version incluse :** 20201228~ynh3
 
 **Démo :** https://ethercalc.net/
 
