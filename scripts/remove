@@ -47,6 +47,7 @@ ynh_script_progression --message="Removing dependencies..." --weight=2
 
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
+ynh_remove_nodejs
 
 #=================================================
 # REMOVE NGINX CONFIGURATION
