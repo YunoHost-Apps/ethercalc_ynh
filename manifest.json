@@ -3,10 +3,10 @@
     "id": "ethercalc",
     "packaging_format": 1,
     "description": {
-        "en": "Online web spreadsheet editor providing collaborative editing in really real-time",
+        "en": "Real-time collaborative spreadsheet editor",
         "fr": "Feuille de calcul collaborative en ligne"
     },
-    "version": "20201228~ynh3",
+    "version": "20201228~ynh4",
     "url": "https://ethercalc.net/",
     "upstream": {
         "license": "CPAL-1.0",
@@ -31,8 +31,7 @@
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
-                "example": "domain.org"
+                "type": "domain"
             },
             {
                 "name": "is_public",
