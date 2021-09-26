@@ -6,7 +6,7 @@
         "en": "Real-time collaborative spreadsheet editor",
         "fr": "Feuille de calcul collaborative en ligne"
     },
-    "version": "20201228~ynh3",
+    "version": "20201228~ynh4",
     "url": "https://ethercalc.net/",
     "upstream": {
         "license": "CPAL-1.0",
