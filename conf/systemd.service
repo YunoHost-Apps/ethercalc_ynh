@@ -1,5 +1,5 @@
 [Unit]
-Description=Ethercalc: collaborative spreadsheet editor.
+Description=Ethercalc: collaborative spreadsheet editor
 After=network.target
 
 [Service]
