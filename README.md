@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # EtherCalc for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/ethercalc.svg)](https://dash.yunohost.org/appci/app/ethercalc) ![](https://ci-apps.yunohost.org/ci/badges/ethercalc.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/ethercalc.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/ethercalc.svg)](https://dash.yunohost.org/appci/app/ethercalc) ![Working status](https://ci-apps.yunohost.org/ci/badges/ethercalc.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/ethercalc.maintain.svg)
+
 [![Install EtherCalc with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=ethercalc)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -23,24 +24,25 @@ EtherCalc is a collaborative spreadsheet that can be edited in real time. Each s
 
 ## Screenshots
 
-![](./doc/screenshots/screenshot.png)
+![Screenshot of EtherCalc](./doc/screenshots/screenshot.png)
 
 ## Documentation and resources
 
-* Official app website: https://ethercalc.net/
-* Upstream app code repository: https://github.com/audreyt/ethercalc
-* YunoHost documentation for this app: https://yunohost.org/app_ethercalc
-* Report a bug: https://github.com/YunoHost-Apps/ethercalc_ynh/issues
+* Official app website: <https://ethercalc.net/>
+* Upstream app code repository: <https://github.com/audreyt/ethercalc>
+* YunoHost documentation for this app: <https://yunohost.org/app_ethercalc>
+* Report a bug: <https://github.com/YunoHost-Apps/ethercalc_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/ethercalc_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/ethercalc_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade ethercalc -u https://github.com/YunoHost-Apps/ethercalc_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>

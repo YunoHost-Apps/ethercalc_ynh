@@ -10,16 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-
-app=$YNH_APP_INSTANCE_NAME
-
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-port=$(ynh_app_setting_get --app=$app --key=port)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-
-#=================================================
 # STANDARD REMOVE
 #=================================================
 # REMOVE SERVICE INTEGRATION IN YUNOHOST
@@ -43,7 +33,7 @@ ynh_remove_systemd_config
 #=================================================
 # REMOVE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Removing dependencies..." --weight=2
+#REMOVEME? ynh_script_progression --message="Removing dependencies..." --weight=2
 
 # Remove metapackage and its dependencies
 ynh_remove_nodejs
@@ -55,24 +45,6 @@ ynh_script_progression --message="Removing NGINX web server configuration..." --
 
 # Remove the dedicated NGINX config
 ynh_remove_nginx_config
-
-#=================================================
-# REMOVE APP MAIN DIR
-#=================================================
-ynh_script_progression --message="Removing app main directory..." --weight=2
-
-# Remove the app directory securely
-ynh_secure_remove --file="$final_path"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# REMOVE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Removing the dedicated system user..." --weight=1
-
-# Delete a system user
-ynh_system_user_delete --username=$app
 
 #=================================================
 # END OF SCRIPT
