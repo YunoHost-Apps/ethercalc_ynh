@@ -1,0 +1,57 @@
+packaging_format = 2
+
+id = "ethercalc"
+name = "EtherCalc"
+description.en = "Real-time collaborative spreadsheet editor"
+description.fr = "Feuille de calcul collaborative en ligne"
+
+version = "20201228~ynh5"
+
+maintainers = ["ljf"]
+
+[upstream]
+license = "CPAL-1.0"
+website = "https://ethercalc.net/"
+demo = "https://ethercalc.net/"
+code = "https://github.com/audreyt/ethercalc"
+cpe = "???" # FIXME: optional but recommended if relevant, this is meant to contain the Common Platform Enumeration, which is sort of a standard id for applications defined by the NIST. In particular, Yunohost may use this is in the future to easily track CVE (=security reports) related to apps. The CPE may be obtained by searching here: https://nvd.nist.gov/products/cpe/search. For example, for Nextcloud, the CPE is 'cpe:2.3:a:nextcloud:nextcloud' (no need to include the version number)
+fund = "???" # FIXME: optional but recommended (or remove if irrelevant / not applicable). This is meant to be an URL where people can financially support this app, especially when its development is based on volunteers and/or financed by its community. YunoHost may later advertise it in the webadmin.
+
+[integration]
+yunohost = ">= 4.3.0"
+architectures = "all" # FIXME: can be replaced by a list of supported archs using the dpkg --print-architecture nomenclature (amd64/i386/armhf/arm64), for example: ["amd64", "i386"]
+multi_instance = true
+ldap = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "sso" key : the "ldap" key corresponds to wether or not a user *can* login on the app using its YunoHost credentials.
+sso = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "ldap" key : the "sso" key corresponds to wether or not a user is *automatically logged-in* on the app when logged-in on the YunoHost portal.
+disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
+ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+[install]
+    [install.domain]
+    # this is a generic question - ask strings are automatically handled by Yunohost's core
+    type = "domain"
+    full_domain = true
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.expire]
+    ask.en = "Deletes a spreadsheet's content after N days of inactivity. (0 to diasable this feature)"
+    ask.fr = "Suppression après N jours d'inactivités. (0 pour désactiver cette fonctionnalité)"
+    type = "string"
+    default = "0"
+
+[resources]
+        [resources.sources.main]
+        url = "https://github.com/audreyt/ethercalc/archive/b196277081d677be991d104e454a52d242ef0189.tar.gz"
+        sha256 = "eaf1b7def67ebf1160d93e403a3930381e99a60f4768809bab653d1c9af26936"
+
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
