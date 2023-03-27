@@ -1,0 +1,55 @@
+packaging_format = 2
+
+id = "ethercalc"
+name = "EtherCalc"
+description.en = "Real-time collaborative spreadsheet editor"
+description.fr = "Feuille de calcul collaborative en ligne"
+
+version = "20201228~ynh6"
+
+maintainers = ["ljf"]
+
+[upstream]
+license = "CPAL-1.0"
+website = "https://ethercalc.net/"
+demo = "https://ethercalc.net/"
+code = "https://github.com/audreyt/ethercalc"
+
+[integration]
+yunohost = ">= 11.1.15"
+architectures = "all"
+multi_instance = true
+ldap = false
+sso = false
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+    full_domain = true
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.expire]
+    ask.en = "Deletes a spreadsheet's content after N days of inactivity. (0 to diasable this feature)"
+    ask.fr = "Suppression après N jours d'inactivités. (0 pour désactiver cette fonctionnalité)"
+    type = "string"
+    default = "0"
+
+[resources]
+        [resources.sources.main]
+        url = "https://github.com/audreyt/ethercalc/archive/b196277081d677be991d104e454a52d242ef0189.tar.gz"
+        sha256 = "eaf1b7def67ebf1160d93e403a3930381e99a60f4768809bab653d1c9af26936"
+
+    [resources.ports]
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
