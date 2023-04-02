@@ -41,20 +41,23 @@ chown -R $app:www-data "$install_dir"
 chmod +x $install_dir/bin/runSafe.sh
 
 #=================================================
-# NGINX CONFIGURATION
+# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
 #=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
+# UPDATE A CONFIG FILE
+#=================================================
+ynh_script_progression --message="Updating a configuration file..." --weight=1
+
+# Install Nodejs
+ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
 
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Upgrading dependencies..." --weight=6
+env_path="$PATH"
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
-# Install Nodejs
-ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
+yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # INSTALL ETHERCALC
@@ -66,22 +69,6 @@ pushd "$install_dir"
 	ynh_exec_warn_less npm install -g ethercalc
 	ynh_exec_warn_less npm i zappajs
 popd
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
-
-env_path="$PATH"
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..." --weight=2
-
-yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
