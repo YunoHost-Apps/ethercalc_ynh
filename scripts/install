@@ -30,12 +30,17 @@ chown -R $app:www-data "$install_dir"
 chmod +x $install_dir/bin/runSafe.sh
 
 #=================================================
-# NGINX CONFIGURATION
+# SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring NGINX web server..." --weight=2
+ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
+
+env_path="$PATH"
+ynh_add_systemd_config
+
+yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # INSTALL ETHERCALC
@@ -47,21 +52,6 @@ pushd "$install_dir"
 	ynh_exec_warn_less npm i -g ethercalc
 	ynh_exec_warn_less npm i zappajs
 popd
-
-#=================================================
-# SETUP SYSTEMD BASED SERVICES
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..." --weight=1
-
-env_path="$PATH"
-ynh_add_systemd_config
-
-#=================================================
-# ADVERTISE SERVICE IN ADMIN PANEL
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..." --weight=1
-
-yunohost service add $app --description "Collaborative spreadsheet editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
