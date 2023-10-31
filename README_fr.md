@@ -31,7 +31,7 @@ EtherCalc est un tableur collaboratif éditable en temps réel. Chaque tableur p
 
 * Site officiel de l’app : <https://ethercalc.net/>
 * Dépôt de code officiel de l’app : <https://github.com/audreyt/ethercalc>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_ethercalc>
+* YunoHost Store: <https://apps.yunohost.org/app/ethercalc>
 * Signaler un bug : <https://github.com/YunoHost-Apps/ethercalc_ynh/issues>
 
 ## Informations pour les développeurs

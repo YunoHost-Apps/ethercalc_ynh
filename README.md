@@ -30,7 +30,7 @@ EtherCalc is a collaborative spreadsheet that can be edited in real time. Each s
 
 * Official app website: <https://ethercalc.net/>
 * Upstream app code repository: <https://github.com/audreyt/ethercalc>
-* YunoHost documentation for this app: <https://yunohost.org/app_ethercalc>
+* YunoHost Store: <https://apps.yunohost.org/app/ethercalc>
 * Report a bug: <https://github.com/YunoHost-Apps/ethercalc_ynh/issues>
 
 ## Developer info
