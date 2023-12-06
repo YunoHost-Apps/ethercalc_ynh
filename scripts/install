@@ -52,8 +52,6 @@ ynh_script_progression --message="Building EtherCalc... (this will take some tim
 
 pushd "$install_dir"
 	ynh_use_nodejs
-        $ynh_npm cache verify
-        $ynh_npm cache clean --force
 	ynh_exec_warn_less npm i -g ethercalc
 	ynh_exec_warn_less npm i zappajs
 popd
