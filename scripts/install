@@ -17,6 +17,9 @@ ynh_script_progression --message="Installing dependencies..." --weight=20
 # Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
+# Upgrade NPM
+ynh_npm install --global npm@latest
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
