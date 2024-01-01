@@ -49,8 +49,11 @@ ynh_script_progression --message="Building EtherCalc... (this will take some tim
 
 pushd "$install_dir"
 	ynh_use_nodejs
-	ynh_exec_warn_less npm i -g ethercalc
-	ynh_exec_warn_less npm i zappajs
+	ynh_secure_remove --file="$install_dir/package-lock.json"
+	ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install -g ethercalc
+	ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install zappajs
+	#ynh_exec_warn_less npm i -g ethercalc
+	#ynh_exec_warn_less npm i zappajs
 popd
 
 #=================================================
