@@ -47,10 +47,8 @@ chmod +x $install_dir/bin/runSafe.sh
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-# Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
-# Create a dedicated nginx config
 ynh_add_nginx_config
 
 env_path="$PATH"

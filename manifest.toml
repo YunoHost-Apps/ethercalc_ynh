@@ -5,7 +5,7 @@ name = "EtherCalc"
 description.en = "Real-time collaborative spreadsheet editor"
 description.fr = "Feuille de calcul collaborative en ligne"
 
-version = "20201228~ynh9"
+version = "20240101~ynh1"
 
 maintainers = ["ljf"]
 
