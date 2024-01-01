@@ -14,7 +14,6 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Installing dependencies..." --weight=20
 
-# Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
@@ -22,7 +21,6 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=2
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir=$install_dir
 
 chmod -R o-rwx "$install_dir"
@@ -34,7 +32,6 @@ chmod +x $install_dir/bin/runSafe.sh
 #=================================================
 ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
-# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 env_path="$PATH"
@@ -50,10 +47,10 @@ ynh_script_progression --message="Building EtherCalc... (this will take some tim
 pushd "$install_dir"
 	ynh_use_nodejs
 	ynh_secure_remove --file="$install_dir/package-lock.json"
-	ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install -g ethercalc
-	ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install zappajs
-	#ynh_exec_warn_less npm i -g ethercalc
-	#ynh_exec_warn_less npm i zappajs
+	#ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install -g ethercalc
+	#ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH $ynh_npm install zappajs
+	ynh_exec_warn_less npm i -g ethercalc
+	ynh_exec_warn_less npm i zappajs
 popd
 
 #=================================================
