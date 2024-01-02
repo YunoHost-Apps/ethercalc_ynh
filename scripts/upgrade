@@ -47,10 +47,8 @@ chmod +x $install_dir/bin/runSafe.sh
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-# Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
-# Create a dedicated nginx config
 ynh_add_nginx_config
 
 env_path="$PATH"
@@ -66,6 +64,7 @@ ynh_script_progression --message="Building EtherCalc... (this will take some tim
 
 pushd "$install_dir"
 	ynh_use_nodejs
+	ynh_secure_remove --file="$install_dir/package-lock.json"
 	ynh_exec_warn_less npm install -g ethercalc
 	ynh_exec_warn_less npm i zappajs
 popd
