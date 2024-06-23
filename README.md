@@ -9,7 +9,7 @@ It shall NOT be edited by hand.
 
 [![Install EtherCalc with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=ethercalc)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
 > *This package allows you to install EtherCalc quickly and simply on a YunoHost server.*  
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
@@ -25,6 +25,10 @@ EtherCalc is a collaborative spreadsheet that can be edited in real time. Each s
 ## Screenshots
 
 ![Screenshot of EtherCalc](./doc/screenshots/screenshot.png)
+
+## :red_circle: Antifeatures
+
+- **Upstream not maintained**: This software is not maintained anymore. Expect it to break down over time, be exposed to unfixed security breaches, etc.
 
 ## Documentation and resources
 

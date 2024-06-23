@@ -26,6 +26,10 @@ EtherCalc is a collaborative spreadsheet that can be edited in real time. Each s
 
 ![Captura de pantalla de EtherCalc](./doc/screenshots/screenshot.png)
 
+## :red_circle: Debes considerar
+
+- **Upstream not maintained**: This software is not maintained anymore. Expect it to break down over time, be exposed to unfixed security breaches, etc.
+
 ## Documentación e recursos
 
 - Web oficial da app: <https://ethercalc.net/>
